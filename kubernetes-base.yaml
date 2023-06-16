@@ -1,0 +1,7 @@
+---
+- name: setting up kubernetes base
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - kubernetes-base

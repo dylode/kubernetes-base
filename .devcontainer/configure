@@ -1,0 +1,13 @@
+#!/bin/bash
+
+pip install PyYAML
+bash install-cilium-cli
+helm plugin install https://github.com/databus23/helm-diff
+
+# Not sure why but when I rebuild the devcontainer
+# the old kind cluster still exists although it's a new
+# container. Lets delete it always so we start with a fresh
+# Kubernetes cluster.
+kind delete cluster --name kubernetes-base-cluster &> /dev/null
+
+mkdir -p ~/.kube && kind create cluster --config=kind-kubernetes-base-cluster.yaml

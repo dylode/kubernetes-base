@@ -1,0 +1,21 @@
+---
+- name: add Cilium chart repo
+  kubernetes.core.helm_repository:
+    name: cilium
+    repo_url: https://helm.cilium.io/
+
+- name: get api server host
+  shell: kubectl -n kube-system get pods | grep -i apiserver | cut -f1 -d" " | xargs kubectl -n kube-system get pods $1 -o=json | jq -r .status.hostIP
+  register: k8s_service_host_cmd
+
+- name: set k8s service host fact
+  set_fact:
+    k8s_service_host: "{{ k8s_service_host_cmd.stdout }}"
+
+- name: install Cilium
+  kubernetes.core.helm:
+    name: cilium
+    namespace: kube-system
+    chart_ref: cilium/cilium
+    chart_version: 1.13.4
+    values: "{{ lookup('template', 'cilium-chart-values.yaml') | from_yaml }}" 
