@@ -33,7 +33,7 @@ imagePullSecrets:
 # @default -- `"~/.kube/config"`
 kubeConfigPath: ""
 # -- (string) Kubernetes service host
-k8sServiceHost: "{{ k8s_service_host }}"
+k8sServiceHost: "{{ api_service_host }}"
 # -- (string) Kubernetes service port
 k8sServicePort: "6443"
 
