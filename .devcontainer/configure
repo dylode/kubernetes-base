@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pip install PyYAML
+pip install PyYAML kubernetes
 bash install-cilium-cli
 helm plugin install https://github.com/databus23/helm-diff
 

@@ -18,4 +18,12 @@
     namespace: kube-system
     chart_ref: cilium/cilium
     chart_version: 1.13.4
-    values: "{{ lookup('template', 'chart-values/cilium.yaml') | from_yaml }}" 
+    values: "{{ lookup('template', 'cilium/values.yaml') | from_yaml }}" 
+
+- name: waiting for Cilium to be ready
+  shell: cilium status --wait
+
+- name: create default ip pool
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'cilium/default-ip-pool.yaml') }}"
