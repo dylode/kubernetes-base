@@ -11,3 +11,11 @@ helm plugin install https://github.com/databus23/helm-diff
 kind delete cluster --name kubernetes-base-cluster &> /dev/null
 
 mkdir -p ~/.kube && kind create cluster --config=kind-kubernetes-base-cluster.yaml
+
+wget https://github.com/dylode/gotemplate-cli/releases/download/v.0.1.0/gotcli
+sudo chmod +x gotcli
+sudo mv gotcli /usr/local/bin/
+
+gotcli render -j "$(docker network inspect kind)" "$(cat /workspaces/kubernetes-base/frr/frr.conf.gotemplate)" > /workspaces/kubernetes-base/frr/frr.conf
+
+docker compose -f /workspaces/kubernetes-base/docker-compose.yaml up -d

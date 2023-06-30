@@ -5,7 +5,11 @@ name: kubernetes-base-cluster
 nodes:
   - role: control-plane
   - role: worker
+    labels:
+      bgp-peering: true
   - role: worker
+    labels:
+      bgp-peering: true
   - role: worker
     labels:
       has-storage: true

@@ -27,3 +27,8 @@
   kubernetes.core.k8s:
     state: present
     definition: "{{ lookup('template', 'cilium/default-ip-pool.yaml') }}"
+
+- name: create bgp peering
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'cilium/bgp-peering.yaml') }}"

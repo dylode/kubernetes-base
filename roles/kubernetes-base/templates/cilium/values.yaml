@@ -348,7 +348,7 @@ bgp:
 # CiliumBGPPeeringPolicy CRDs.
 bgpControlPlane:
   # -- Enables the BGP control plane.
-  enabled: false
+  enabled: true
 
 pmtuDiscovery:
   # -- Enable path MTU discovery to send ICMP fragmentation-needed replies to
