@@ -1,0 +1,7 @@
+---
+- name: provising dev container
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - provision-dev-container

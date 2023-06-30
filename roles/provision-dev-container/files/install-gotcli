@@ -1,0 +1,5 @@
+#!/bin/bash 
+
+wget https://github.com/dylode/gotemplate-cli/releases/download/v.0.1.0/gotcli
+sudo chmod +x gotcli
+sudo mv gotcli /usr/local/bin/

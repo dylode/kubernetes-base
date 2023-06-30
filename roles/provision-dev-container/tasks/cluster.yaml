@@ -1,0 +1,23 @@
+---
+- block:
+  - name: checking if k3d cluster exists
+    shell: "autok3s list | grep test"
+    register: autok3s_list_cmd
+    failed_when: false
+    ignore_errors: true      
+
+  - name: setting up k3d cluster
+    shell:
+      autok3s create
+        --provider k3d
+        --name test
+        --master 1 
+        --worker 3
+        --no-lb
+    when: autok3s_list_cmd.stdout == ""
+
+- name: ensure .kube folder exists
+  command: mkdir -p ~/.kube
+
+- name: retrieve and save k3s config 
+  shell: "{{ role_path }}/files/retrieve-k3s-config k3d-test-server-0"

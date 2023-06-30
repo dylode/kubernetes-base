@@ -1,0 +1,17 @@
+---
+- name: render frr.conf
+  debug:
+    msg: pretending to render frr.conf
+
+- name: creating frr docker container
+  community.docker.docker_container:
+    name: frr
+    state: started
+    image: quay.io/frrouting/frr:8.5.2
+    volumes:
+      - "{{ role_path }}/files/frr/:/etc/frr/"
+    capabilities:
+      - CAP_NET_RAW
+      - NET_ADMIN
+      - SYS_ADMIN
+    network_mode: host

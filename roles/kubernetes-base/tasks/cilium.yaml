@@ -1,6 +1,6 @@
 ---
 - name: get api service host
-  shell: kubectl -n kube-system get pods | grep -i apiserver | cut -f1 -d" " | xargs kubectl -n kube-system get pods $1 -o=json | jq -r .status.hostIP
+  shell: kubectl get nodes -o json | jq -r '.items[0].status.addresses[] | select(.type=="InternalIP").address'
   register: api_service_host_cmd
 
 - name: set api service host fact
@@ -12,23 +12,23 @@
     name: cilium
     repo_url: https://helm.cilium.io/
 
-- name: install Cilium
-  kubernetes.core.helm:
-    name: cilium
-    namespace: kube-system
-    chart_ref: cilium/cilium
-    chart_version: 1.13.4
-    values: "{{ lookup('template', 'cilium/values.yaml') | from_yaml }}" 
-
-- name: waiting for Cilium to be ready
-  shell: cilium status --wait
-
-- name: create default ip pool
-  kubernetes.core.k8s:
-    state: present
-    definition: "{{ lookup('template', 'cilium/default-ip-pool.yaml') }}"
-
-- name: create bgp peering
-  kubernetes.core.k8s:
-    state: present
-    definition: "{{ lookup('template', 'cilium/bgp-peering.yaml') }}"
+#- name: install Cilium
+#  kubernetes.core.helm:
+#    name: cilium
+#    namespace: kube-system
+#    chart_ref: cilium/cilium
+#    chart_version: 1.13.4
+#    values: "{{ lookup('template', 'cilium/values.yaml') | from_yaml }}" 
+#
+#- name: waiting for Cilium to be ready
+#  shell: cilium status --wait
+#
+#- name: create default ip pool
+#  kubernetes.core.k8s:
+#    state: present
+#    definition: "{{ lookup('template', 'cilium/default-ip-pool.yaml') }}"
+#
+#- name: create bgp peering
+#  kubernetes.core.k8s:
+#    state: present
+#    definition: "{{ lookup('template', 'cilium/bgp-peering.yaml') }}"

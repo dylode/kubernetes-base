@@ -1,0 +1,45 @@
+---
+- name: install Python packages
+  ansible.builtin.pip:
+    name:
+      - PyYAML
+      - kubernetes
+      - docker
+
+- name: install Helm diff plugin
+  kubernetes.core.helm_plugin:
+    plugin_path: https://github.com/databus23/helm-diff
+    state: present
+
+- block:
+    - name: check if Cilium CLI is installed
+      command: cilium
+      register: cilium_cli_cmd
+      ignore_errors: true
+      failed_when: false
+
+    - name: installing Cilium CLI
+      shell: "{{ role_path }}/files/install-cilium-cli"
+      when: cilium_cli_cmd.rc != 0
+
+- block:
+    - name: check if gotcli is installed
+      command: gotcli
+      register: gotcli_cmd
+      ignore_errors: true
+      failed_when: false
+
+    - name: installing gotcli
+      shell: "{{ role_path }}/files/install-gotcli"
+      when: gotcli_cmd.rc != 0
+
+- block:
+    - name: check if autok3s is installed
+      command: autok3s
+      register: autok3s_cmd
+      ignore_errors: true
+      failed_when: false
+
+    - name: installing gotcli
+      shell: "{{ role_path }}/files/install-autok3s"
+      when: autok3s_cmd.rc != 0

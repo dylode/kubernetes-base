@@ -1,0 +1,3 @@
+#!/bin/bash
+
+curl -sS https://rancher-mirror.rancher.cn/autok3s/install.sh  | sh

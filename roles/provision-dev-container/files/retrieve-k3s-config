@@ -1,0 +1,5 @@
+#!/bin/bash
+
+k3s_server_ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $1)
+docker exec $1 cat /etc/rancher/k3s/k3s.yaml | sed "s/127\.0\.0\.1/$k3s_server_ip/g" > ~/.kube/config
+chmod go-r ~/.kube/config

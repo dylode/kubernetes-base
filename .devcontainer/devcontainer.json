@@ -10,12 +10,8 @@
             "helm": "latest",
             "minikube": "none"
         },
-        "ghcr.io/mpriscella/features/kind:1": {
-            "version": "latest"
-        },
         "ghcr.io/devcontainers-contrib/features/ansible:2": {
             "version": "latest"
         }
-    },
-    "postCreateCommand": "cd .devcontainer && ./configure"
+    }
 }
