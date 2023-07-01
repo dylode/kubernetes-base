@@ -10,6 +10,7 @@
 - name: add Cilium chart repo
   kubernetes.core.helm_repository:
     name: cilium
+    force_update: true
     repo_url: https://helm.cilium.io/
 
 - name: install Cilium

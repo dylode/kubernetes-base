@@ -6,12 +6,12 @@ metadata:
 spec: 
   nodeSelector:
     matchLabels:
-      bgp-peering: 'true'
+      ingress-node: 'bgp'
   virtualRouters: 
     - localASN: 65100
       serviceSelector:
         matchExpressions:
            - {key: somekey, operator: NotIn, values: ['never-used-value']}
       neighbors: 
-        - peerAddress: 172.19.0.1/32
+        - peerAddress: 172.20.0.1/32
           peerASN: 65100

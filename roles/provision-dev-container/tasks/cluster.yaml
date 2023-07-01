@@ -6,17 +6,15 @@
     failed_when: false
     ignore_errors: true      
 
-  #- name: make /sys shared
-  #  command: sudo mount --make-shared /sys
-
   - name: setting up k3d cluster
     command:
       autok3s create
         --provider k3d
         --name test
         --master 1 
-        --master-extra-args '--flannel-backend=none --disable=network-policy,kube-proxy'
+        --master-extra-args '--flannel-backend=none --disable=network-policy,kube-proxy,local-storage,traefik'
         --worker 3
+        --labels 'ingress-node=bgp@agent:0,1,2'
         --no-lb
     when: autok3s_list_cmd.stdout == ""
 

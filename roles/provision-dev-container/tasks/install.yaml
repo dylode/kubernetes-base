@@ -46,7 +46,7 @@
 
 - block:
     - name: check if k9s is installed
-      command: k9s
+      command: k9s info
       register: k9s_cmd
       ignore_errors: true
       failed_when: false

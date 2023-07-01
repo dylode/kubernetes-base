@@ -1,12 +1,12 @@
 ---
 - name: render frr.conf
-  debug:
-    msg: pretending to render frr.conf
+  shell: "gotcli render -j \"$(docker network inspect k3d-test)\" \"$(cat {{ role_path }}/files/frr/frr.conf.gotemplate)\" > {{ role_path }}/files/frr/frr.conf"
 
 - name: creating frr docker container
   community.docker.docker_container:
     name: frr
     state: started
+    restart: true
     image: quay.io/frrouting/frr:8.5.2
     volumes:
       - "{{ role_path }}/files/frr/:/etc/frr/"

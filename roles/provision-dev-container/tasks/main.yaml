@@ -2,8 +2,8 @@
 - import_tasks: install.yaml
   tags: install
 
-- import_tasks: frr.yaml
-  tags: frr
-
 - import_tasks: cluster.yaml
   tags: cluster
+
+- import_tasks: frr.yaml
+  tags: frr

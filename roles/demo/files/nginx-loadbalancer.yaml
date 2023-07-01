@@ -32,6 +32,8 @@ kind: Service
 metadata:
   name: nginx-service
   namespace: nginx-loadbalancer
+  annotations:
+    "io.cilium/lb-ipam-ips": "10.140.140.10"
 spec:
   selector:
     app: nginx
