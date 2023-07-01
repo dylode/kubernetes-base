@@ -41,5 +41,16 @@
       failed_when: false
 
     - name: installing gotcli
-      shell: "{{ role_path }}/files/install-autok3s"
+      shell: curl -sS https://rancher-mirror.rancher.cn/autok3s/install.sh  | sh
       when: autok3s_cmd.rc != 0
+
+- block:
+    - name: check if k9s is installed
+      command: k9s
+      register: k9s_cmd
+      ignore_errors: true
+      failed_when: false
+
+    - name: installing k9s
+      shell: curl -sS https://webinstall.dev/k9s | bash
+      when: k9s_cmd.rc != 0
