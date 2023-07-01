@@ -1,75 +1,11 @@
 ---
 - block:
-  - name: checking if k3d cluster exists
-    shell: "autok3s list | grep test"
-    register: autok3s_list_cmd
+  - name: checking if kind cluster exists
+    shell: "kind get clusters | grep kubernetes-base-cluster"
+    register: kind_list_cmd
     failed_when: false
     ignore_errors: true      
 
-  - name: setting up k3d cluster
-    command:
-      autok3s create
-        --provider k3d
-        --name test
-        --master 1 
-        --master-extra-args '--flannel-backend=none --disable=network-policy,kube-proxy,local-storage,traefik'
-        --worker 3
-        --labels 'ingress-node=bgp@agent:0,1,2'
-        --no-lb
-    when: autok3s_list_cmd.stdout == ""
-
-  - name: get all k3s containers
-    command: "{% raw %}docker ps -a --format '{{.Names}}' --filter 'name=k3d-test*'{% endraw %}"
-    register: all_k3s_containers_cmd
-    when: autok3s_list_cmd.stdout == ""
-    
-  - name: mounting /sys/fs/bpf
-    community.docker.docker_container_exec:
-      container: "{{ item }}"
-      command: mount bpffs /sys/fs/bpf -t bpf
-    loop: "{{ all_k3s_containers_cmd.stdout_lines }}"
-    loop_control:
-      label: "{{ item }}"
-    when: autok3s_list_cmd.stdout == ""
-
-  - name: sharing /sys/fs/bpf
-    community.docker.docker_container_exec:
-      container: "{{ item }}"
-      command: mount --make-shared /sys/fs/bpf
-    loop: "{{ all_k3s_containers_cmd.stdout_lines }}"
-    loop_control:
-      label: "{{ item }}"
-    when: autok3s_list_cmd.stdout == ""
-
-  - name: creating /run/cilium/cgroupv2
-    community.docker.docker_container_exec:
-      container: "{{ item }}"
-      command: mkdir -p /run/cilium/cgroupv2
-    loop: "{{ all_k3s_containers_cmd.stdout_lines }}"
-    loop_control:
-      label: "{{ item }}"
-    when: autok3s_list_cmd.stdout == ""
-    
-  - name: mounting /run/cilium/cgroupv2
-    community.docker.docker_container_exec:
-      container: "{{ item }}"
-      command: mount -t cgroup2 none /run/cilium/cgroupv2
-    loop: "{{ all_k3s_containers_cmd.stdout_lines }}"
-    loop_control:
-      label: "{{ item }}"
-    when: autok3s_list_cmd.stdout == ""
-
-  - name: sharing /run/cilium/cgroupv2
-    community.docker.docker_container_exec:
-      container: "{{ item }}"
-      command: mount --make-shared /run/cilium/cgroupv2/
-    loop: "{{ all_k3s_containers_cmd.stdout_lines }}"
-    loop_control:
-      label: "{{ item }}"
-    when: autok3s_list_cmd.stdout == ""
-
-- name: ensure .kube folder exists
-  command: mkdir -p ~/.kube
-
-- name: retrieve and save k3s config 
-  command: "{{ role_path }}/files/retrieve-k3s-config k3d-test-server-0"
+  - name: setting up kind cluster
+    command: "kind create cluster --config {{ role_path }}/files/cluster.yaml"
+    when: kind_list_cmd.stdout == ""

@@ -12,6 +12,9 @@
         },
         "ghcr.io/devcontainers-contrib/features/ansible:2": {
             "version": "latest"
+        },
+        "ghcr.io/mpriscella/features/kind:1": {
+            "version": "latest"
         }
     }
 }

@@ -1,6 +1,6 @@
 ---
 - name: get api service host
-  command: "{{ role_path }}/files/retrieve-api-server-host k3d-test-server-0"
+  shell: kubectl -n kube-system get pods | grep -i apiserver | cut -f1 -d" " | xargs kubectl -n kube-system get pods $1 -o=json | jq -r .status.hostIP
   register: api_service_host_cmd
 
 - name: set api service host fact

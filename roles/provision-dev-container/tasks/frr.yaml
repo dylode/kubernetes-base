@@ -1,6 +1,6 @@
 ---
 - name: render frr.conf
-  shell: "gotcli render -j \"$(docker network inspect k3d-test)\" \"$(cat {{ role_path }}/files/frr/frr.conf.gotemplate)\" > {{ role_path }}/files/frr/frr.conf"
+  shell: "gotcli render -j \"$(docker network inspect kind)\" \"$(cat {{ role_path }}/files/frr/frr.conf.gotemplate)\" > {{ role_path }}/files/frr/frr.conf"
 
 - name: creating frr docker container
   community.docker.docker_container:

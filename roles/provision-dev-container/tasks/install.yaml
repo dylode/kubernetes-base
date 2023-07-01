@@ -34,17 +34,6 @@
       when: gotcli_cmd.rc != 0
 
 - block:
-    - name: check if autok3s is installed
-      command: autok3s
-      register: autok3s_cmd
-      ignore_errors: true
-      failed_when: false
-
-    - name: installing gotcli
-      shell: curl -sS https://rancher-mirror.rancher.cn/autok3s/install.sh  | sh
-      when: autok3s_cmd.rc != 0
-
-- block:
     - name: check if k9s is installed
       command: k9s info
       register: k9s_cmd

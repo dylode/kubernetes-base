@@ -6,7 +6,9 @@ service integrated-vtysh-config
 !
 router bgp 65100
 {{- range (index . 0).Containers }}
+    {{- if (.Name | contains "worker") }}
     neighbor {{ .IPv4Address | splitList "/" | first }} remote-as 65100
+    {{- end }}
 {{- end }}
 exit
 !
