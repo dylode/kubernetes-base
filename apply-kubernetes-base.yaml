@@ -1,8 +1,7 @@
 ---
-- name: provising dev container
+- name: apply kubernetes base
   hosts: localhost
   connection: local
   gather_facts: false
   roles:
     - kubernetes-base
-    - demo

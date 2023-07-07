@@ -1,11 +1,17 @@
 ---
 - block:
   - name: checking if kind cluster exists
-    shell: "kind get clusters | grep kubernetes-base-cluster"
+    shell: "kind get clusters | grep {{ cluster.name }}"
     register: kind_list_cmd
     failed_when: false
     ignore_errors: true      
 
+  - name: rendering kind config file
+    template:
+      src: "{{ role_path }}/templates/cluster.yaml"
+      dest: /tmp/cluster.yaml
+    when: kind_list_cmd.stdout == ""
+
   - name: setting up kind cluster
-    command: "kind create cluster --config {{ role_path }}/files/cluster.yaml"
+    command: "kind create cluster --config /tmp/cluster.yaml"
     when: kind_list_cmd.stdout == ""

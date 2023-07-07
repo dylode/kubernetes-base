@@ -1,0 +1,11 @@
+---
+cluster:
+  name: olga
+  hostname: at.olga.dylode.nl
+  cilium:
+    bgp:
+      asn: 65100
+      tor_ip: 172.19.0.1/32
+    default_ip_pool_cidr: 10.140.140.0/24
+  traefik:
+    loadbalancer_ip: 10.140.140.10

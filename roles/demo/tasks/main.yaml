@@ -1,5 +1,0 @@
----
-- name: demo nginx using LoadBalancer
-  kubernetes.core.k8s:
-    state: present
-    definition: "{{ lookup('file', 'nginx-loadbalancer.yaml') | from_yaml_all }}"

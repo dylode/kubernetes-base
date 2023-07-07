@@ -6,12 +6,12 @@ metadata:
 spec: 
   nodeSelector:
     matchLabels:
-      ingress-node: 'bgp'
+      ingress-node: "bgp"
   virtualRouters: 
-    - localASN: 65100
+    - localASN: {{ cluster.cilium.bgp.asn }}
       serviceSelector:
-        matchExpressions:
-           - {key: somekey, operator: NotIn, values: ['never-used-value']}
+        matchExpressions: 
+           - {key: somekey, operator: NotIn, values: ['never-used-value']} # match all nodes
       neighbors: 
-        - peerAddress: 172.19.0.1/32
-          peerASN: 65100
+        - peerAddress: "{{ cluster.cilium.bgp.tor_ip }}"
+          peerASN: {{ cluster.cilium.bgp.asn }}
