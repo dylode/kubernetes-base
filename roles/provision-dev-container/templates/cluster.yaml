@@ -14,6 +14,7 @@ nodes:
   - role: worker
     labels:
       ingress-node: bgp
+      node.longhorn.io/create-default-disk: true
 
 networking:
   disableDefaultCNI: true
