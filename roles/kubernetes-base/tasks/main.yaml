@@ -7,3 +7,6 @@
 
 - import_tasks: longhorn.yaml
   tags: longhorn
+
+- import_tasks: kubernetes-dashboard.yaml
+  tags: kubernetes-dashboard

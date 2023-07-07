@@ -23,7 +23,7 @@
 - name: creating IngressRoute for Traefik dashboard
   kubernetes.core.k8s:
     state: present
-    definition: "{{ lookup('template', 'traefik/dashboard.yaml') | from_yaml_all }}"
+    definition: "{{ lookup('template', 'traefik/ingress.yaml') | from_yaml_all }}"
 
 - name: creating IngressRoute for Hubble UI
   kubernetes.core.k8s:

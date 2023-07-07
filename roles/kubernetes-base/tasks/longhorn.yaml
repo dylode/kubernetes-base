@@ -23,4 +23,4 @@
 - name: creating IngressRoute for Longhorn dashboard
   kubernetes.core.k8s:
     state: present
-    definition: "{{ lookup('template', 'longhorn/dashboard.yaml') | from_yaml }}"
+    definition: "{{ lookup('template', 'longhorn/ingress.yaml') | from_yaml }}"

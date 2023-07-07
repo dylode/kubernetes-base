@@ -1,0 +1,32 @@
+---
+- name: add Kubernetes helm chart
+  kubernetes.core.helm_repository:
+    name: kubernetes-dashboard
+    force_update: true
+    repo_url: https://kubernetes.github.io/dashboard/
+
+- name: creating Kubernetes dashboard namespace
+  kubernetes.core.k8s:
+    name: kubernetes-dashboard
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: install Kubernetes Dashboard
+  kubernetes.core.helm:
+    name: kubernetes-dashboard
+    namespace: kubernetes-dashboard
+    chart_ref: kubernetes-dashboard/kubernetes-dashboard
+    chart_version: 6.0.8
+    values: "{{ lookup('template', 'kubernetes-dashboard/values.yaml') | from_yaml }}" 
+
+- name: creating IngressRoute for Kubernetes Dashboard
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'kubernetes-dashboard/ingress.yaml') | from_yaml }}"
+
+
+- name: funzzz
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'kubernetes-dashboard/fun.yaml') | from_yaml_all }}"
